@@ -3,19 +3,19 @@
 In the input-reading code T stands for "Term", I.E, the entered forumla,
 but for the rules section & prove, it always means "Tail" of the terms list.
 
-AND right and OR left have branching, which is why theya re not specified as rules
+AND right and OR left have branching, which is why they are not specified as rules
 
 You'll see in the rules that it prints out which rule is used for each step.
 
-In rules and prove, L and R are intended to just stand for miscellaneous
+In rules and prove, L and R are intended to stand for miscellaneous
 terms on the left and right sides of the formula. They are lists of terms,
-which once again kind of works in the assumption that ands on the left and ors
+which works in the assumption that ands on the left and ors
 on the right can be replaced with commas, though there is still an explicit
 rule for this. (7 and 8.)
 
 */
 
-% Took these from another program which implemented logic w/ infix ops
+% Infix operations
 :- op(650, xfy, <=>).% Logically equivalent
 :- op(600, xfy, =>). % x implies y
 :- op(400, xfy, v ). % x or y
@@ -33,11 +33,7 @@ rule for this. (7 and 8.)
 
 /* The algorithm rules section
 
-Originally had 10 rules, but I had to scrap the right version of AND
-and the left version of OR. These two scenarios are built into my branch
-enumerating system, it's fairly obvious why it's designed this way
-as those two scenarios are the only ones which cause a "split" where two
-formulas need to be evaluated*/
+All rules of the algorithm, save AND right and OR left, which generate branching*/
 
 
 
@@ -83,11 +79,11 @@ handler(T) :-
     nl,
     nl,
     (prove([] & [] => [] & [T]),!, % Prove the entered term from nothing.
-    nl,                            % Because of the way I structured prove to
-    write('Formula is valid');     % Maintain T across multiple predicates
-    nl,                            % I need to write it this way.
-    write('Formula is not valid')),% There is an OR in this definition,
-    nl,                            % So if prove fails, it prints unsuccessful.
+    nl,                           
+    write('Formula is valid');  % Notice the OR
+    nl,                            
+    write('Formula is not valid')),
+    nl,                            
     nl.
 
 /* This is just a printing function, Though it makes the call back to prove. */
@@ -168,7 +164,7 @@ tautology(L & [] => R & []) :-
     
     
     
-/* Printing stuff for debugging */
+/* Printing formatting*/
 
 branch_success :-
     write('This branch has succeeded'),
